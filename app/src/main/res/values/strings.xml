@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Gestor Eventos</string>
+    <string name="eventos">Eventos</string>
+
+    <string name="evento_titulo">Título del evento</string>
+    <string name="evento_descripcion">Descripción del evento</string>
+    <string name="evento_fecha">31-oct-2023</string>
+
+    <string name="atras_button">Atrás</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="siguiente">Siguiente</string>
 </resources>
