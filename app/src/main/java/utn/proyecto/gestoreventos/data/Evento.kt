@@ -8,7 +8,8 @@ data class Evento (
     @DrawableRes val imagen: Int,
     @StringRes val titulo: Int,
     @StringRes val descripcion: Int,
-    @StringRes val fecha: Int
+    @StringRes val fecha: Int,
+    @StringRes val hora: Int = R.string.hora
 )
 
 val eventos = listOf<Evento>(

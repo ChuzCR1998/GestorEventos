@@ -1,12 +1,28 @@
 <resources>
     <string name="app_name">Gestor Eventos</string>
     <string name="eventos">Eventos</string>
+    <string name="nuevo_evento">Nuevo evento</string>
 
+    <!-- Ejemplos -->
     <string name="evento_titulo">Título del evento</string>
     <string name="evento_descripcion">Descripción del evento</string>
     <string name="evento_fecha">31-oct-2023</string>
 
+    <!-- Formulario de nuevo evento -->
+    <string name="titulo">Título</string>
+    <string name="descripcion">Descripción</string>
+    <string name="fecha">Fecha</string>
+    <string name="hora">Hora</string>
+
+    <!-- Botones -->
     <string name="atras_button">Atrás</string>
     <string name="cancelar">Cancelar</string>
     <string name="siguiente">Siguiente</string>
+
+    <string name="open_dialog">Abrir ventana</string>
+    <string name="ok_message">Crear</string>
+    <string name="cancel_message">Cancelar</string>
+    <string name="title_message">Nuevo evento</string>
+    <string name="body_message">Definir el formulario para crear un nuevo evento</string>
+    <string name="crear_evento">Crear evento</string>
 </resources>
