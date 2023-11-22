@@ -1,12 +1,21 @@
 <resources>
     <string name="app_name">Gestor Eventos</string>
     <string name="eventos">Eventos</string>
+    <string name="invitados">Invitados</string>
     <string name="nuevo_evento">Nuevo evento</string>
+    <string name="nuevo_invitado">Nuevo invitado</string>
 
     <!-- Ejemplos -->
     <string name="evento_titulo">Título del evento</string>
     <string name="evento_descripcion">Descripción del evento</string>
     <string name="evento_fecha">31-oct-2023</string>
+
+    <string name="invitado_nombre_masculino">Monkey D. Luffy</string>
+    <string name="invitado_genero_masculino">Masculino</string>
+    <string name="invitado_nombre_femenino">Nezuko Kamado</string>
+    <string name="invitado_genero_femenino">Femenino</string>
+    <string name="invitado_telefono">8767-7126</string>
+    <string name="invitado_email">jesusurenablanco@gmail.com</string>
 
     <!-- Formulario de nuevo evento -->
     <string name="titulo">Título</string>

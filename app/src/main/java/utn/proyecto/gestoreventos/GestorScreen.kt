@@ -1,5 +1,7 @@
 package utn.proyecto.gestoreventos
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
@@ -24,11 +26,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import utn.proyecto.gestoreventos.ui.EventosScreen
+import utn.proyecto.gestoreventos.ui.InvitadosScreen
 import utn.proyecto.gestoreventos.ui.PrincipalScreen
 
 enum class GestorScreen(@StringRes val title: Int) {
     Start(title = R.string.app_name),
-    Eventos(title = R.string.eventos)
+    Eventos(title = R.string.eventos),
+    Invitados(title = R.string.invitados)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,6 +62,7 @@ fun GestorAppBar(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GestorApp(
@@ -98,7 +103,19 @@ fun GestorApp(
             composable(route = GestorScreen.Eventos.name) {
                 val context = LocalContext.current
                 EventosScreen(
-                    onNextButtonClicked = { navController.navigate(GestorScreen.Eventos.name) },
+                    onNextButtonClicked = { navController.navigate(GestorScreen.Invitados.name) },
+                    onCancelButtonClicked = {
+                        //cancelOrderAndNavigateToStart(viewModel, navController)
+                    },
+                    onSelectionChanged = { },
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
+
+            composable(route = GestorScreen.Invitados.name) {
+                val context = LocalContext.current
+                InvitadosScreen(
+                    onNextButtonClicked = { navController.navigate(GestorScreen.Invitados.name) },
                     onCancelButtonClicked = {
                         //cancelOrderAndNavigateToStart(viewModel, navController)
                     },
