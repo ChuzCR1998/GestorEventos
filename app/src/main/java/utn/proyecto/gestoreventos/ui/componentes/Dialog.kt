@@ -1,5 +1,6 @@
 package utn.proyecto.gestoreventos.ui.componentes
 
+import android.content.Context
 import android.os.Build
 import android.util.DisplayMetrics
 import android.widget.Toast
@@ -16,16 +17,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,7 +50,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.MaterialDialogState
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import utn.proyecto.gestoreventos.R
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
@@ -91,6 +102,7 @@ fun NuevoEventoDialog(
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NuevoEventoForm() {
@@ -98,6 +110,9 @@ fun NuevoEventoForm() {
     var descripcion by remember { mutableStateOf("") }
     var fecha by remember { mutableStateOf("") }
     var hora by remember { mutableStateOf("") }
+
+    val context: Context = LocalContext.current
+    val dateDialogState = rememberMaterialDialogState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -148,6 +163,17 @@ fun NuevoEventoForm() {
                 value = fecha,
                 onValueChange = { fecha = it },
                 label = { Text(stringResource(R.string.fecha)) },
+                trailingIcon = {
+                    IconButton(
+                        onClick = {
+                            dateDialogState.show()
+                        },
+                        modifier = Modifier.clip(MaterialTheme.shapes.small)
+                    ) {
+                        Icon(Icons.Filled.Search, contentDescription = "Calendar Icon")
+                    }
+                },
+                readOnly = true,
                 modifier = Modifier
                     .weight(0.5f)
                     .fillMaxWidth()
@@ -189,4 +215,7 @@ fun NuevoEventoForm() {
 
         }
     }
+
+    fecha = DatePickerDialogComponent(context = context, dateDialogState = dateDialogState)
+
 }
