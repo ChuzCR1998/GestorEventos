@@ -113,6 +113,7 @@ fun NuevoEventoForm() {
 
     val context: Context = LocalContext.current
     val dateDialogState = rememberMaterialDialogState()
+    val timeDialogState = rememberMaterialDialogState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -170,7 +171,11 @@ fun NuevoEventoForm() {
                         },
                         modifier = Modifier.clip(MaterialTheme.shapes.small)
                     ) {
-                        Icon(Icons.Filled.Search, contentDescription = "Calendar Icon")
+                        Icon(
+                            painterResource(R.drawable.icono_calendario),
+                            contentDescription = "Calendar Icon",
+                            modifier = Modifier.size(dimensionResource(R.dimen.icono_pequeno))
+                        )
                     }
                 },
                 readOnly = true,
@@ -186,6 +191,21 @@ fun NuevoEventoForm() {
                 value = hora,
                 onValueChange = { hora = it },
                 label = { Text(stringResource(R.string.hora)) },
+                trailingIcon = {
+                    IconButton(
+                        onClick = {
+                            timeDialogState.show()
+                        },
+                        modifier = Modifier.clip(MaterialTheme.shapes.small)
+                    ) {
+                        Icon(
+                            painterResource(R.drawable.icono_reloj),
+                            contentDescription = "Ícono Reloj",
+                            modifier = Modifier.size(dimensionResource(R.dimen.icono_pequeno))
+                        )
+                    }
+                },
+                readOnly = true,
                 modifier = Modifier
                     .weight(0.5f)
                     .fillMaxWidth()
@@ -217,5 +237,5 @@ fun NuevoEventoForm() {
     }
 
     fecha = DatePickerDialogComponent(context = context, dateDialogState = dateDialogState)
-
+    hora = TimePickerDialogComponent(context = context, timeDialogState = timeDialogState)
 }

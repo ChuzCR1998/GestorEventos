@@ -18,6 +18,7 @@
     <string name="atras_button">Atrás</string>
     <string name="cancelar">Cancelar</string>
     <string name="siguiente">Siguiente</string>
+    <string name="aceptar">Aceptar</string>
 
     <string name="open_dialog">Abrir ventana</string>
     <string name="ok_message">Crear</string>
@@ -25,4 +26,13 @@
     <string name="title_message">Nuevo evento</string>
     <string name="body_message">Definir el formulario para crear un nuevo evento</string>
     <string name="crear_evento">Crear evento</string>
+
+    <!-- Mensajes -->
+    <string name="fecha_seleccionada_ok">Fecha seleccionada correctamente</string>
+    <string name="hora_seleccionada_ok">Hora seleccionada correctamente</string>
+
+    <!-- Títulos -->
+    <string name="seleccione_fecha">Seleccione una fecha</string>
+    <string name="seleccione_hora">Seleccione una hora</string>
+
 </resources>
