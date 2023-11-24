@@ -56,7 +56,7 @@ fun InvitadosScreen(
     val viewModel: EventosViewModel = viewModel()
     Scaffold (
         floatingActionButton = {
-            NuevoInvitadoButton(onClick = viewModel::openDialog)
+            NuevoInvitadoButton(onClick = onNextButtonClicked)
         },
         floatingActionButtonPosition = FabPosition.End
     ) {

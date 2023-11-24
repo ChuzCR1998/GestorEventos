@@ -23,6 +23,14 @@
     <string name="fecha">Fecha</string>
     <string name="hora">Hora</string>
 
+    <!-- Formulario de nuevo invitado -->
+    <string name="nombre">Nombre</string>
+    <string name="telefono">Teléfono</string>
+    <string name="correo">Correo</string>
+    <string name="masculino">Masculino</string>
+    <string name="femenino">Femenino</string>
+    <string name="anadir_invitado">Añadir invitado</string>
+
     <!-- Botones -->
     <string name="atras_button">Atrás</string>
     <string name="cancelar">Cancelar</string>

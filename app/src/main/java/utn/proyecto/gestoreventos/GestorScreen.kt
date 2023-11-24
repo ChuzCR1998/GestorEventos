@@ -27,12 +27,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import utn.proyecto.gestoreventos.ui.EventosScreen
 import utn.proyecto.gestoreventos.ui.InvitadosScreen
+import utn.proyecto.gestoreventos.ui.NuevoInvitadoScreen
 import utn.proyecto.gestoreventos.ui.PrincipalScreen
 
 enum class GestorScreen(@StringRes val title: Int) {
     Start(title = R.string.app_name),
     Eventos(title = R.string.eventos),
-    Invitados(title = R.string.invitados)
+    Invitados(title = R.string.invitados),
+    NuevoInvitado(title = R.string.nuevo_invitado)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -115,11 +117,21 @@ fun GestorApp(
             composable(route = GestorScreen.Invitados.name) {
                 val context = LocalContext.current
                 InvitadosScreen(
-                    onNextButtonClicked = { navController.navigate(GestorScreen.Invitados.name) },
+                    onNextButtonClicked = { navController.navigate(GestorScreen.NuevoInvitado.name) },
                     onCancelButtonClicked = {
                         //cancelOrderAndNavigateToStart(viewModel, navController)
                     },
                     onSelectionChanged = { },
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
+
+            composable(route = GestorScreen.NuevoInvitado.name) {
+                val context = LocalContext.current
+                NuevoInvitadoScreen(
+                    onCancelButtonClicked = {
+                        //cancelOrderAndNavigateToStart(viewModel, navController)
+                    },
                     modifier = Modifier.fillMaxHeight()
                 )
             }
