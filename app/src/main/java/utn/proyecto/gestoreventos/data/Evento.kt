@@ -3,7 +3,7 @@ package utn.proyecto.gestoreventos.data
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import utn.proyecto.gestoreventos.R
-
+/*Hola*/
 data class Evento (
     @DrawableRes val imagen: Int,
     @StringRes val titulo: Int,
