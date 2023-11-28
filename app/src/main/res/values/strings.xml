@@ -1,5 +1,21 @@
 <resources>
+    /*
+    Pablo Mora
+    13-11-2023
+    Etiquetas del Login
+    */
+    <string name="email">Correo</string>
+    <string name="password">Contraseña</string>
+    <string name="forgotPassword">Olvidaste tu contraseña?</string>
+    <string name="firstName">Nombre</string>
+    <string name="lastName">Apellido</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="createAct">Crear cuenta</string>
+
+
+
     <string name="app_name">Gestor Eventos</string>
+    <string name="Login">Inicio Sesion</string>
     <string name="eventos">Eventos</string>
     <string name="invitados">Invitados</string>
     <string name="nuevo_evento">Nuevo evento</string>

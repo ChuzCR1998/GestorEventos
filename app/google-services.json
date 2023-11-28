@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "994884164672",
+    "project_id": "logingestoreventos",
+    "storage_bucket": "logingestoreventos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:994884164672:android:e56e19a7213c38886e93a5",
+        "android_client_info": {
+          "package_name": "utn.proyecto.gestoreventos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz-xlQ0Q-g1Nip4arik4106dv36XUKqs0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

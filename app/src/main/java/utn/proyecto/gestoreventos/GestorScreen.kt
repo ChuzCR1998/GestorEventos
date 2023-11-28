@@ -3,6 +3,7 @@ package utn.proyecto.gestoreventos
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -26,11 +27,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import utn.proyecto.gestoreventos.ui.EventosScreen
+import utn.proyecto.gestoreventos.ui.InicioSecion
 import utn.proyecto.gestoreventos.ui.InvitadosScreen
 import utn.proyecto.gestoreventos.ui.NuevoInvitadoScreen
 import utn.proyecto.gestoreventos.ui.PrincipalScreen
 
 enum class GestorScreen(@StringRes val title: Int) {
+    Login(title = R.string.Login),
     Start(title = R.string.app_name),
     Eventos(title = R.string.eventos),
     Invitados(title = R.string.invitados),
@@ -91,9 +94,17 @@ fun GestorApp(
         //val uiState by viewModel.uiState.collectAsState()
         NavHost(
             navController = navController,
-            startDestination = GestorScreen.Start.name,
+            startDestination = GestorScreen.Login.name,
             modifier = modifier.padding(innerPadding)
         ) {
+
+            composable(route = GestorScreen.Login.name) {
+                InicioSecion(
+                    navigateToHome = {
+                        navController.navigate(GestorScreen.Start.name)
+                    }
+                )
+            }
             composable(route = GestorScreen.Start.name) {
                 PrincipalScreen(
                     onNextButtonClicked = {
@@ -138,4 +149,12 @@ fun GestorApp(
 
         }
     }
+}
+
+@Composable
+fun InicioSesionApp(
+    navController: NavHostController = rememberNavController(),
+    modifier: Modifier = Modifier
+){
+
 }
