@@ -1,9 +1,10 @@
 package utn.proyecto.gestoreventos.ui
 
+import utn.proyecto.gestoreventos.data.Invitado
+import utn.proyecto.gestoreventos.data.invitados
+
 import android.app.AlertDialog
-import android.os.Build
 import androidx.annotation.DrawableRes
-import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,6 +36,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.compose.AppTheme
 import utn.proyecto.gestoreventos.R
@@ -43,10 +45,9 @@ import utn.proyecto.gestoreventos.data.eventos
 import utn.proyecto.gestoreventos.ui.componentes.NuevoEventoDialog
 import utn.proyecto.gestoreventos.ui.viewmodel.EventosViewModel
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventosScreen(
+fun InvitadosScreen(
     onSelectionChanged: (String) -> Unit = {},
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
@@ -55,32 +56,32 @@ fun EventosScreen(
     val viewModel: EventosViewModel = viewModel()
     Scaffold (
         floatingActionButton = {
-            NuevoEventoButton(onClick = viewModel::openDialog)
+            NuevoInvitadoButton(onClick = onNextButtonClicked)
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
-        it ->
+            it ->
         LazyColumn(contentPadding = it) {
-            items(eventos) {
-                EventoItem(
-                    evento = it,
+            items(invitados) {
+                InvitadoItem(
+                    invitado = it,
                     onClick = onNextButtonClicked,
                     modifier = modifier.padding(dimensionResource(R.dimen.padding_small))
                 )
             }
         }
 
-        NuevoEventoDialog(
+        /*NuevoEventoDialog(
             showDialog = viewModel.showDialog,
             onDismiss = viewModel::onDialogDismiss,
             onConfirm = viewModel::onDialogConfirm
-        )
+        )*/
     }
-    
+
 }
 
 @Composable
-fun EventoIcon(
+fun InvitadoIcon(
     @DrawableRes imagen: Int,
     modifier: Modifier = Modifier
 ){
@@ -96,7 +97,7 @@ fun EventoIcon(
 }
 
 @Composable
-fun EventoInfo(
+fun InvitadoInfo(
     @StringRes titulo: Int,
     @StringRes descripcion: Int,
     modifier: Modifier = Modifier
@@ -116,19 +117,22 @@ fun EventoInfo(
 }
 
 @Composable
-fun EventoFecha(@StringRes fecha: Int, modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Text(
-            text = stringResource(fecha),
-            style = MaterialTheme.typography.bodySmall,
-            modifier = modifier.padding(dimensionResource(R.dimen.padding_small))
-        )
-    }
+fun InvitadoNotificadoIcon(notificado: Boolean, modifier: Modifier = Modifier) {
+    Image(
+        painter = if (notificado) painterResource(R.drawable.icono_mensaje_enviado)
+                    else painterResource(R.drawable.icono_mensaje_sin_enviar),
+        contentDescription = null,
+        modifier = modifier
+            .size(50.dp)
+            .padding(dimensionResource(R.dimen.padding_small))
+            .clip(MaterialTheme.shapes.small),
+        contentScale = ContentScale.Crop
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventoItem(evento: Evento, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun InvitadoItem(invitado: Invitado, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Card (modifier = modifier, onClick = onClick) {
         Column (
             modifier = Modifier
@@ -136,33 +140,32 @@ fun EventoItem(evento: Evento, onClick: () -> Unit, modifier: Modifier = Modifie
                 .padding(dimensionResource(R.dimen.padding_small))
         ) {
             Row {
-                EventoIcon(imagen = evento.imagen)
-                EventoInfo(titulo = evento.titulo, descripcion = evento.descripcion)
+                InvitadoIcon(imagen = invitado.imagen)
+                InvitadoInfo(titulo = invitado.nombre, descripcion = invitado.email)
                 Spacer(modifier = Modifier.weight(1f))
-                EventoFecha(fecha = evento.fecha, modifier)
+                InvitadoNotificadoIcon(invitado.notificado)
             }
         }
     }
 }
 
 @Composable
-fun NuevoEventoButton(onClick: () -> Unit) {
+fun NuevoInvitadoButton(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = onClick,
         containerColor = MaterialTheme.colorScheme.primary
     ) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = stringResource(R.string.nuevo_evento)
+            contentDescription = stringResource(R.string.nuevo_invitado)
         )
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Preview
 @Composable
-fun EventosScreenPreview() {
+fun InvitadosScreenPreview() {
     AppTheme {
-        EventosScreen()
+        InvitadosScreen()
     }
 }

@@ -9,19 +9,19 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import utn.proyecto.gestoreventos.ui.InicioSecion
 import utn.proyecto.gestoreventos.ui.UserForm
+import com.example.compose.AppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            MaterialTheme {
-                //InicioSesionApp()
-                /*GestorApp()*/
-
-                InicioSecion()
+            AppTheme {
+                GestorApp()
             }
         }
+        
+        
     }
 
 

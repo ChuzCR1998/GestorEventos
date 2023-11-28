@@ -189,7 +189,7 @@ fun InputFiel(valueState: MutableState<String>,
 
 @Composable
 fun InicioSecion(
-    navController: NavController ,
+    navigateToHome: () -> Unit ,
     viewModel: LoginScreenViewModel = viewModel()):Unit
 {
     val mostraLogin = rememberSaveable {
@@ -208,9 +208,8 @@ fun InicioSecion(
 
                         correo, contrasenna ->
                     Log.d("GestorEventos","Logueado con exito $correo")
-                    viewModel.signInWithEmailAndPassword(correo,contrasenna){
-                        navController.navigate(GestorScreen.Start.name)
-                    }
+                    viewModel.signInWithEmailAndPassword(correo,contrasenna,navigateToHome)
+
                 }
 
             }
