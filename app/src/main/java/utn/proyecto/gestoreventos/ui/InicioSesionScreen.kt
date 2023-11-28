@@ -221,6 +221,8 @@ fun InicioSecion(
                     
                     correo, contrasenna ->
                     Log.d("GestorEventos","Se creo la cuenta con exito $correo")
+
+                    viewModel.createUserWithEmailAndPassword(correo,contrasenna,navigateToHome)
                 }
 
             }
@@ -248,5 +250,7 @@ fun InicioSecion(
             
         }
     }
+
+
 
 }
