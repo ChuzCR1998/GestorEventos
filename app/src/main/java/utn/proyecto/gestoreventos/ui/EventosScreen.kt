@@ -1,12 +1,9 @@
 package utn.proyecto.gestoreventos.ui
 
-import android.app.AlertDialog
 import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,8 +23,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -37,9 +35,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.compose.AppTheme
+import kotlinx.coroutines.launch
 import utn.proyecto.gestoreventos.R
 import utn.proyecto.gestoreventos.data.Evento
-import utn.proyecto.gestoreventos.data.eventos
 import utn.proyecto.gestoreventos.ui.componentes.NuevoEventoDialog
 import utn.proyecto.gestoreventos.ui.viewmodel.EventosViewModel
 
@@ -50,9 +48,11 @@ fun EventosScreen(
     onSelectionChanged: (String) -> Unit = {},
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: EventosViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    val viewModel: EventosViewModel = viewModel()
+    val coroutineScope = rememberCoroutineScope()
+    val eventosUIState by viewModel.eventosUIState.collectAsState()
     Scaffold (
         floatingActionButton = {
             NuevoEventoButton(onClick = viewModel::openDialog)
@@ -61,7 +61,7 @@ fun EventosScreen(
     ) {
         it ->
         LazyColumn(contentPadding = it) {
-            items(eventos) {
+            items(eventosUIState.eventosList) {
                 EventoItem(
                     evento = it,
                     onClick = onNextButtonClicked,
@@ -71,9 +71,15 @@ fun EventosScreen(
         }
 
         NuevoEventoDialog(
+            eventoUiState = viewModel.eventoUiState,
+            onEventoValueChange = viewModel::updateEventoUiState,
             showDialog = viewModel.showDialog,
             onDismiss = viewModel::onDialogDismiss,
-            onConfirm = viewModel::onDialogConfirm
+            onConfirm = {
+                coroutineScope.launch {
+                    viewModel.saveEvento()
+                }
+            }
         )
     }
     
@@ -81,11 +87,10 @@ fun EventosScreen(
 
 @Composable
 fun EventoIcon(
-    @DrawableRes imagen: Int,
     modifier: Modifier = Modifier
 ){
     Image(
-        painter = painterResource(imagen),
+        painter = painterResource(R.drawable.icono_evento),
         contentDescription = null,
         modifier = modifier
             .size(dimensionResource(R.dimen.image_size))
@@ -97,18 +102,18 @@ fun EventoIcon(
 
 @Composable
 fun EventoInfo(
-    @StringRes titulo: Int,
-    @StringRes descripcion: Int,
+    titulo: String,
+    ubicacion: String,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
         Text(
-            text = stringResource(titulo),
+            text = titulo,
             style = MaterialTheme.typography.titleSmall,
             modifier = modifier.padding(dimensionResource(R.dimen.padding_small))
         )
         Text(
-            text = stringResource(descripcion),
+            text = ubicacion,
             style = MaterialTheme.typography.bodySmall,
             modifier = modifier.padding(dimensionResource(R.dimen.padding_small))
         )
@@ -116,10 +121,10 @@ fun EventoInfo(
 }
 
 @Composable
-fun EventoFecha(@StringRes fecha: Int, modifier: Modifier = Modifier) {
+fun EventoFecha(fecha: String, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
-            text = stringResource(fecha),
+            text = fecha,
             style = MaterialTheme.typography.bodySmall,
             modifier = modifier.padding(dimensionResource(R.dimen.padding_small))
         )
@@ -136,8 +141,8 @@ fun EventoItem(evento: Evento, onClick: () -> Unit, modifier: Modifier = Modifie
                 .padding(dimensionResource(R.dimen.padding_small))
         ) {
             Row {
-                EventoIcon(imagen = evento.imagen)
-                EventoInfo(titulo = evento.titulo, descripcion = evento.descripcion)
+                EventoIcon()
+                EventoInfo(titulo = evento.titulo, ubicacion = evento.ubicacion)
                 Spacer(modifier = Modifier.weight(1f))
                 EventoFecha(fecha = evento.fecha, modifier)
             }

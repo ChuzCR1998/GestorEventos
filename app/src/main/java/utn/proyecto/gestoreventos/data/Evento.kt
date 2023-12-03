@@ -10,14 +10,14 @@ import utn.proyecto.gestoreventos.R
 data class Evento (
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    @DrawableRes val imagen: Int,
-    @StringRes val titulo: Int,
-    @StringRes val descripcion: Int,
-    @StringRes val fecha: Int,
-    @StringRes val hora: Int = R.string.hora
+    val imagen: Int = 0,
+    val titulo: String = "",
+    val ubicacion: String = "",
+    val fecha: String = "",
+    val hora: String = ""
 )
 
-val eventos = listOf<Evento>(
+/*val eventos = listOf<Evento>(
     Evento(0, R.drawable.icono_evento, R.string.evento_titulo, R.string.evento_descripcion, R.string.evento_fecha),
     Evento(0, R.drawable.icono_evento, R.string.evento_titulo, R.string.evento_descripcion, R.string.evento_fecha),
     Evento(0,R.drawable.icono_evento, R.string.evento_titulo, R.string.evento_descripcion, R.string.evento_fecha),
@@ -25,4 +25,4 @@ val eventos = listOf<Evento>(
     Evento(0, R.drawable.icono_evento, R.string.evento_titulo, R.string.evento_descripcion, R.string.evento_fecha),
     Evento(0, R.drawable.icono_evento, R.string.evento_titulo, R.string.evento_descripcion, R.string.evento_fecha),
     Evento(0, R.drawable.icono_evento, R.string.evento_titulo, R.string.evento_descripcion, R.string.evento_fecha)
-)
+)*/

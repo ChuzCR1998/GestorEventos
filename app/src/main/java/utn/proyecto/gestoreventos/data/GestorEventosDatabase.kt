@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Evento::class, Invitado::class], version = 1, exportSchema = false)
+@Database(entities = [Evento::class], version = 2, exportSchema = false)
 abstract class GestorEventosDatabase : RoomDatabase() {
     abstract fun eventoDao(): EventoDao
 
@@ -16,7 +16,7 @@ abstract class GestorEventosDatabase : RoomDatabase() {
         fun getDatabase(context: Context): GestorEventosDatabase {
             // if the Instance is not null, return it, otherwise create a new database instance.
             return Instance ?: synchronized(this) {
-                Room.databaseBuilder(context, GestorEventosDatabase::class.java, "evento_database")
+                Room.databaseBuilder(context, GestorEventosDatabase::class.java, "eventos_database")
                     .fallbackToDestructiveMigration()
                     .build()
                     .also { Instance = it }

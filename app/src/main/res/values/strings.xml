@@ -35,7 +35,7 @@
 
     <!-- Formulario de nuevo evento -->
     <string name="titulo">Título</string>
-    <string name="descripcion">Descripción</string>
+    <string name="ubicacion">Ubicación</string>
     <string name="fecha">Fecha</string>
     <string name="hora">Hora</string>
 

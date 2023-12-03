@@ -74,7 +74,7 @@ val correo = rememberSaveable{
             contrasennaVisible = contrasennaVisible
         )
         SubmitButton(
-            textId = if (isCreateAccount) "Crear Cuenta" else "Inciar Sesión",
+            textId = if (isCreateAccount) "Crear Cuenta" else "Iniciar Sesión",
             inputValido = valido
         ){
             onDone(correo.value.trim(), contrasenna.value.trim())

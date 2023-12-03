@@ -26,6 +26,7 @@ import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import utn.proyecto.gestoreventos.R
+import utn.proyecto.gestoreventos.data.Evento
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -35,7 +36,9 @@ import java.util.Date
 @Composable
 fun DatePickerDialogComponent(
     context: Context,
-    dateDialogState: MaterialDialogState
+    dateDialogState: MaterialDialogState,
+    evento: Evento,
+    onValueChange: (Evento) -> Unit = {}
 ): String {
     var pickedDate by remember {
         mutableStateOf(LocalDate.now())
@@ -76,6 +79,7 @@ fun DatePickerDialogComponent(
             )
         ) {
             pickedDate = it
+            onValueChange(evento.copy(fecha = pickedDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))))
         }
     }
     return pickedDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
