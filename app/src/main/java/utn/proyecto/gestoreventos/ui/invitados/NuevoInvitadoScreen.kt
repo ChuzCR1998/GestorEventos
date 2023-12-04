@@ -199,7 +199,7 @@ fun NuevoInvitadoScreen(
 
                             Toast.makeText(
                                 context,
-                                "Enviar corrreo",
+                                "Enviando correo de notificación...",
                                 Toast.LENGTH_LONG
                             ).show()
                         }

@@ -116,7 +116,7 @@ class InvitadosViewModel(
                             InternetAddress.parse(invitado.email)
                         ) // Reemplaza con la dirección de correo del destinatario
                     message.subject = "Notificación de Invitado"
-                    message.setText(invitado.nombre + " Has sido invitado a un nuevo Evento, te vamos a contactar al siguiente número " + invitado.telefono)
+                    message.setText(invitado.nombre + "¡Haz sido invitado a un nuevo Evento! Te vamos a contactar al siguiente número " + invitado.telefono)
 
                     Transport.send(message)
                 } catch (e: MessagingException) {

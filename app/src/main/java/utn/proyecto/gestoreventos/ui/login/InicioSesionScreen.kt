@@ -61,7 +61,9 @@ val correo = rememberSaveable{
 
     val keyboartController = LocalSoftwareKeyboardController.current
  Column (horizontalAlignment = Alignment.CenterHorizontally) {
-        CorreoImput(
+
+     
+     CorreoImput(
             correoState = correo
         )
         ContrasennaInput(
@@ -195,7 +197,7 @@ fun InicioSecion(
     Surface (modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally ) 
+            horizontalAlignment = Alignment.CenterHorizontally )
         {
             if (mostraLogin.value){
                 Text(text = "Iniciar Sesión")
@@ -215,7 +217,7 @@ fun InicioSecion(
                 UserForm(
                     isCreateAccount = true
                 ){
-                    
+
                     correo, contrasenna ->
                     Log.d("GestorEventos","Se creo la cuenta con exito $correo")
 
@@ -244,7 +246,7 @@ fun InicioSecion(
                 )
 
             }
-            
+
         }
     }
 

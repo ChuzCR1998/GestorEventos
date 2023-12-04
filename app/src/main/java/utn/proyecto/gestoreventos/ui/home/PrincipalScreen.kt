@@ -1,6 +1,8 @@
 package utn.proyecto.gestoreventos.ui.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +19,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -45,17 +49,9 @@ fun PrincipalScreen(
     ) { innerPadding ->
         Column(
             modifier = modifier.padding(innerPadding),
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.Center
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                EventosButton(onClick = onNextButtonClicked)
-                Spacer(modifier = Modifier.weight(1f))
-                CerrarSesionButton(cerrarSesionClicked = cerrarSesionClicked)
-            }
+            PrincipalImage(onNextButtonClicked, cerrarSesionClicked, modifier)
         }
     }
 
@@ -68,7 +64,7 @@ fun EventosButton(
 ){
     Button(
         onClick = onClick,
-        modifier = modifier.widthIn(min = 250.dp)
+        modifier = modifier.widthIn(min = 250.dp).padding(top = 240.dp)
     ) {
         Text(stringResource(R.string.eventos))
     }
@@ -83,8 +79,35 @@ fun CerrarSesionButton(
         onClick = {
             cerrarSesionClicked()
         },
-        modifier = modifier.widthIn(min = 250.dp).padding(bottom = 32.dp)
+        modifier = modifier.widthIn(min = 250.dp).padding(bottom = 40.dp)
     ) {
         Text(stringResource(R.string.Logout))
+    }
+}
+
+@Composable
+fun PrincipalImage(
+    onNextButtonClicked: () -> Unit,
+    cerrarSesionClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    // Create a box to overlap image and texts
+    Box(modifier) {
+        Image(
+            painter = painterResource(id = R.drawable.androidparty),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            alpha = 0.3F
+        )
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            EventosButton(onClick = onNextButtonClicked)
+            Spacer(modifier = modifier.weight(1f))
+            CerrarSesionButton(cerrarSesionClicked = cerrarSesionClicked)
+        }
     }
 }
