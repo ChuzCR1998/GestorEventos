@@ -48,6 +48,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.example.compose.AppTheme
 import utn.proyecto.gestoreventos.R
+import java.util.Properties
+import javax.mail.Authenticator
+import javax.mail.Message
+import javax.mail.MessagingException
+import javax.mail.PasswordAuthentication
+import javax.mail.Session
+import javax.mail.Transport
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -134,7 +143,7 @@ fun NuevoInvitadoScreen(
                 )
 
             Button(
-                onClick = {},
+                onClick = { sendEmail(email ,nombre,telefono)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
@@ -145,10 +154,44 @@ fun NuevoInvitadoScreen(
             ) {
                 Text(stringResource(R.string.anadir_invitado))
             }
+Button(onClick = {
+    sendEmail(email,nombre,telefono)
+}) {
 
+}
         }
     }
 
+}
+fun sendEmail(correo: String,nombre: String,telfono: String) {
+    val senderEmail = "gestioneventos23@gmail.com" // Reemplaza con tu dirección de correo
+    val senderPassword = "yqzwlrxqhlywmrnb" // Reemplaza con tu contraseña
+
+    val properties = Properties().apply {
+        put("mail.smtp.host", "smtp.gmail.com") // Reemplaza con tu servidor SMTP
+        put("mail.smtp.port", "587") // Reemplaza con el puerto del servidor SMTP
+        put("mail.smtp.auth", "true")
+        put("mail.smtp.socketFactory.port", "465")
+        put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory")
+    }
+
+    val session = Session.getInstance(properties, object : Authenticator() {
+        override fun getPasswordAuthentication(): PasswordAuthentication {
+            return PasswordAuthentication(senderEmail, senderPassword)
+        }
+    })
+
+    try {
+        val message = MimeMessage(session)
+        message.setFrom(InternetAddress(senderEmail))
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(correo)) // Reemplaza con la dirección de correo del destinatario
+        message.subject = "Notificación de Invitado"
+        message.setText("$nombre Has sido invitado a un nuevo Evento, te vamos a contactar al siguiente número $telfono")
+
+        Transport.send(message)
+    } catch (e: MessagingException) {
+        e.printStackTrace()
+    }
 }
 
 @Composable
