@@ -54,6 +54,15 @@ import utn.proyecto.gestoreventos.GestorEventosTopAppBar
 import utn.proyecto.gestoreventos.R
 import utn.proyecto.gestoreventos.ui.AppViewModelProvider
 import utn.proyecto.gestoreventos.ui.navigation.NavigationDestination
+import java.util.Properties
+import javax.mail.Authenticator
+import javax.mail.Message
+import javax.mail.MessagingException
+import javax.mail.PasswordAuthentication
+import javax.mail.Session
+import javax.mail.Transport
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
 
 object NuevoInvitadoDestination : NavigationDestination {
     override val route = "nuevo_invitado"
@@ -177,12 +186,20 @@ fun NuevoInvitadoScreen(
                             if (!pudoGuardar) {
                                 mensaje = "Todos los campos son obligatorios"
                             } else {
+                                viewModel.sendEmail(viewModel.invitadoUiState.invitado)
                                 navigateBack()
                             }
 
                             Toast.makeText(
                                 context,
                                 mensaje,
+                                Toast.LENGTH_LONG
+                            ).show()
+
+
+                            Toast.makeText(
+                                context,
+                                "Enviar corrreo",
                                 Toast.LENGTH_LONG
                             ).show()
                         }
