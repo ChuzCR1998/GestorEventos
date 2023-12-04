@@ -20,13 +20,17 @@ import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.time.TimePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import utn.proyecto.gestoreventos.R
+import utn.proyecto.gestoreventos.data.Evento
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TimePickerDialogComponent(
     context: Context,
-    timeDialogState: MaterialDialogState
+    timeDialogState: MaterialDialogState,
+    evento: Evento,
+    onValueChange: (Evento) -> Unit = {}
 ): String {
     var pickedTime by remember {
         mutableStateOf(LocalTime.NOON)
@@ -69,6 +73,7 @@ fun TimePickerDialogComponent(
             )
         ) {
             pickedTime = it
+            onValueChange(evento.copy(hora = pickedTime.toString()))
         }
     }
 

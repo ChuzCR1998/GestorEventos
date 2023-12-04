@@ -55,12 +55,16 @@ import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import utn.proyecto.gestoreventos.R
+import utn.proyecto.gestoreventos.data.Evento
+import utn.proyecto.gestoreventos.ui.viewmodel.EventoUiState
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun NuevoEventoDialog(
+    eventoUiState: EventoUiState,
+    onEventoValueChange: (Evento) -> Unit,
     showDialog: Boolean,
     onDismiss: () -> Unit,
     onConfirm: () -> Unit
@@ -93,7 +97,7 @@ fun NuevoEventoDialog(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    NuevoEventoForm()
+                    NuevoEventoForm(eventoUiState.evento, onEventoValueChange, onConfirm)
                 }
 
             }
@@ -105,7 +109,11 @@ fun NuevoEventoDialog(
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NuevoEventoForm() {
+fun NuevoEventoForm(
+    evento: Evento,
+    onValueChange: (Evento) -> Unit = {},
+    onConfirm: () -> Unit
+) {
     var titulo by remember { mutableStateOf("") }
     var descripcion by remember { mutableStateOf("") }
     var fecha by remember { mutableStateOf("") }
@@ -131,8 +139,8 @@ fun NuevoEventoForm() {
         )
 
         OutlinedTextField(
-            value = titulo,
-            onValueChange = { titulo = it },
+            value = evento.titulo,
+            onValueChange = { onValueChange(evento.copy(titulo = it)) },
             label = { Text(stringResource(R.string.titulo)) },
             modifier = Modifier
                 .fillMaxWidth()
@@ -143,9 +151,9 @@ fun NuevoEventoForm() {
         )
 
         OutlinedTextField(
-            value = descripcion,
-            onValueChange = { descripcion = it },
-            label = { Text(stringResource(R.string.descripcion)) },
+            value = evento.ubicacion,
+            onValueChange = { onValueChange(evento.copy(ubicacion = it)) },
+            label = { Text(stringResource(R.string.ubicacion)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -161,8 +169,8 @@ fun NuevoEventoForm() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedTextField(
-                value = fecha,
-                onValueChange = { fecha = it },
+                value = evento.fecha,
+                onValueChange = { onValueChange(evento.copy(fecha = it)) },
                 label = { Text(stringResource(R.string.fecha)) },
                 trailingIcon = {
                     IconButton(
@@ -188,7 +196,7 @@ fun NuevoEventoForm() {
                     )
             )
             OutlinedTextField(
-                value = hora,
+                value = evento.hora,
                 onValueChange = { hora = it },
                 label = { Text(stringResource(R.string.hora)) },
                 trailingIcon = {
@@ -221,7 +229,7 @@ fun NuevoEventoForm() {
         ) {
             Button(
                 onClick = {
-                    //onDismiss()
+                    onConfirm()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -236,6 +244,9 @@ fun NuevoEventoForm() {
         }
     }
 
-    fecha = DatePickerDialogComponent(context = context, dateDialogState = dateDialogState)
-    hora = TimePickerDialogComponent(context = context, timeDialogState = timeDialogState)
+    fecha = DatePickerDialogComponent(context = context, dateDialogState = dateDialogState, evento, onValueChange)
+    hora = TimePickerDialogComponent(context = context, timeDialogState = timeDialogState, evento, onValueChange)
+
+    onValueChange(evento.copy(fecha = fecha))
+    onValueChange(evento.copy(hora = hora))
 }

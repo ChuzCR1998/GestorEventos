@@ -40,9 +40,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.compose.AppTheme
 import utn.proyecto.gestoreventos.R
-import utn.proyecto.gestoreventos.data.Evento
-import utn.proyecto.gestoreventos.data.eventos
-import utn.proyecto.gestoreventos.ui.componentes.NuevoEventoDialog
 import utn.proyecto.gestoreventos.ui.viewmodel.EventosViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

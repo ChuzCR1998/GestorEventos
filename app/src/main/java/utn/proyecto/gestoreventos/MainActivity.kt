@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import utn.proyecto.gestoreventos.ui.InicioSecion
 import utn.proyecto.gestoreventos.ui.UserForm
 import com.example.compose.AppTheme
+import utn.proyecto.gestoreventos.ui.EventosApplication
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
