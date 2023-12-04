@@ -7,6 +7,7 @@ import android.content.Context
  */
 interface AppContainer {
     val eventosRepository: EventosRepository
+    val invitadosRepository: InvitadosRepository
 }
 
 /**
@@ -15,5 +16,9 @@ interface AppContainer {
 class AppDataContainer(private val context: Context) : AppContainer {
     override val eventosRepository: EventosRepository by lazy {
         OfflineEventosRepository(GestorEventosDatabase.getDatabase(context).eventoDao())
+    }
+
+    override val invitadosRepository: InvitadosRepository by lazy {
+        OfflineInvitadosRepository(GestorEventosDatabase.getDatabase(context).invitadoDao())
     }
 }

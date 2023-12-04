@@ -1,4 +1,4 @@
-package utn.proyecto.gestoreventos.ui
+package utn.proyecto.gestoreventos.ui.login
 
 import android.app.AlertDialog
 import android.content.Context

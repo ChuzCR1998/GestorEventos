@@ -10,18 +10,19 @@ import utn.proyecto.gestoreventos.R
 data class Invitado (
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    @DrawableRes val imagen: Int,
-    @StringRes val nombre: Int,
-    @StringRes val genero: Int,
-    @StringRes val telefono: Int,
-    @StringRes val email: Int = R.string.hora,
-    val notificado: Boolean,
+    val eventoId: Int = 0,
+    val imagen: String = "",
+    val nombre: String = "",
+    val genero: String = "Masculino",
+    val telefono: String = "",
+    val email: String = "",
+    val notificado: Boolean = false,
 )
 
-val invitados = listOf<Invitado>(
+/*val invitados = listOf<Invitado>(
     Invitado(0, R.drawable.icono_hombre, R.string.invitado_nombre_masculino, R.string.invitado_genero_masculino, R.string.invitado_telefono, R.string.invitado_email, true),
     Invitado(0, R.drawable.icono_mujer, R.string.invitado_nombre_femenino, R.string.invitado_nombre_femenino, R.string.invitado_telefono, R.string.invitado_email, false),
     Invitado(0, R.drawable.icono_hombre, R.string.invitado_nombre_masculino, R.string.invitado_genero_masculino, R.string.invitado_telefono, R.string.invitado_email, false),
     Invitado(0, R.drawable.icono_mujer, R.string.invitado_nombre_femenino, R.string.invitado_nombre_femenino, R.string.invitado_telefono, R.string.invitado_email, true),
 
-)
+)*/

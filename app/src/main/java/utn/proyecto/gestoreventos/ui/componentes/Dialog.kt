@@ -3,7 +3,6 @@ package utn.proyecto.gestoreventos.ui.componentes
 import android.content.Context
 import android.os.Build
 import android.util.DisplayMetrics
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -14,12 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -28,9 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,22 +36,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.MaterialDialogState
-import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import utn.proyecto.gestoreventos.R
 import utn.proyecto.gestoreventos.data.Evento
-import utn.proyecto.gestoreventos.ui.viewmodel.EventoUiState
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import utn.proyecto.gestoreventos.ui.eventos.EventoUiState
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
@@ -114,8 +98,6 @@ fun NuevoEventoForm(
     onValueChange: (Evento) -> Unit = {},
     onConfirm: () -> Unit
 ) {
-    var titulo by remember { mutableStateOf("") }
-    var descripcion by remember { mutableStateOf("") }
     var fecha by remember { mutableStateOf("") }
     var hora by remember { mutableStateOf("") }
 

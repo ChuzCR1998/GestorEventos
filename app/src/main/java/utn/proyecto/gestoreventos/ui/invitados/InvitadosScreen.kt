@@ -1,8 +1,6 @@
-package utn.proyecto.gestoreventos.ui
+package utn.proyecto.gestoreventos.ui.invitados
 
-import android.os.Build
-import androidx.annotation.DrawableRes
-import androidx.annotation.RequiresApi
+import utn.proyecto.gestoreventos.data.Invitado
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,75 +20,96 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.compose.AppTheme
-import kotlinx.coroutines.launch
+import utn.proyecto.gestoreventos.GestorEventosTopAppBar
 import utn.proyecto.gestoreventos.R
-import utn.proyecto.gestoreventos.data.Evento
-import utn.proyecto.gestoreventos.ui.componentes.NuevoEventoDialog
-import utn.proyecto.gestoreventos.ui.viewmodel.EventosViewModel
+import utn.proyecto.gestoreventos.ui.AppViewModelProvider
+import utn.proyecto.gestoreventos.ui.navigation.NavigationDestination
 
-@RequiresApi(Build.VERSION_CODES.Q)
+object InvitadosDestination : NavigationDestination {
+    override val route = "invitados"
+    override val titleRes = R.string.invitados
+    const val eventoIdArg = "eventoId"
+    val routeWithArgs = "$route/{$eventoIdArg}"
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventosScreen(
-    onSelectionChanged: (String) -> Unit = {},
-    onCancelButtonClicked: () -> Unit = {},
-    onNextButtonClicked: () -> Unit = {},
+fun InvitadosScreen(
+    onNextButtonClicked: (Int) -> Unit = {},
+    navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: EventosViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: InvitadosViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val eventosUIState by viewModel.eventosUIState.collectAsState()
+    val invitadosUIState by viewModel.invitadosUIState.collectAsState()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     Scaffold (
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            GestorEventosTopAppBar(
+                title = "Invitados",
+                canNavigateBack = true,
+                scrollBehavior = scrollBehavior,
+                navigateUp = navigateBack
+            )
+        },
         floatingActionButton = {
-            NuevoEventoButton(onClick = viewModel::openDialog)
+            NuevoInvitadoButton(
+                onClick = onNextButtonClicked,
+                eventoId = invitadosUIState.eventoId
+            )
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
-        it ->
+            it ->
         LazyColumn(contentPadding = it) {
-            items(eventosUIState.eventosList) {
-                EventoItem(
-                    evento = it,
-                    onClick = onNextButtonClicked,
+            items(invitadosUIState.invitadosList) {
+                InvitadoItem(
+                    invitado = it,
+                    onClick = { },
                     modifier = modifier.padding(dimensionResource(R.dimen.padding_small))
                 )
             }
         }
 
-        NuevoEventoDialog(
-            eventoUiState = viewModel.eventoUiState,
-            onEventoValueChange = viewModel::updateEventoUiState,
+        /*NuevoEventoDialog(
             showDialog = viewModel.showDialog,
             onDismiss = viewModel::onDialogDismiss,
-            onConfirm = {
-                coroutineScope.launch {
-                    viewModel.saveEvento()
-                }
-            }
-        )
+            onConfirm = viewModel::onDialogConfirm
+        )*/
     }
-    
+
 }
 
 @Composable
-fun EventoIcon(
+fun InvitadoIcon(
+    genero: String,
     modifier: Modifier = Modifier
 ){
+    var imagen: Painter = painterResource(R.drawable.icono_mujer)
+
+    if (genero == stringResource(R.string.masculino)) {
+        imagen = painterResource(R.drawable.icono_hombre)
+    }
     Image(
-        painter = painterResource(R.drawable.icono_evento),
+        painter = imagen,
         contentDescription = null,
         modifier = modifier
             .size(dimensionResource(R.dimen.image_size))
@@ -101,19 +120,19 @@ fun EventoIcon(
 }
 
 @Composable
-fun EventoInfo(
-    titulo: String,
-    ubicacion: String,
+fun InvitadoInfo(
+    nombre: String,
+    email: String,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
         Text(
-            text = titulo,
+            text = nombre,
             style = MaterialTheme.typography.titleSmall,
             modifier = modifier.padding(dimensionResource(R.dimen.padding_small))
         )
         Text(
-            text = ubicacion,
+            text = email,
             style = MaterialTheme.typography.bodySmall,
             modifier = modifier.padding(dimensionResource(R.dimen.padding_small))
         )
@@ -121,53 +140,58 @@ fun EventoInfo(
 }
 
 @Composable
-fun EventoFecha(fecha: String, modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Text(
-            text = fecha,
-            style = MaterialTheme.typography.bodySmall,
-            modifier = modifier.padding(dimensionResource(R.dimen.padding_small))
-        )
-    }
+fun InvitadoNotificadoIcon(notificado: Boolean, modifier: Modifier = Modifier) {
+    Image(
+        painter = if (notificado) painterResource(R.drawable.icono_mensaje_enviado)
+                    else painterResource(R.drawable.icono_mensaje_sin_enviar),
+        contentDescription = null,
+        modifier = modifier
+            .size(50.dp)
+            .padding(dimensionResource(R.dimen.padding_small))
+            .clip(MaterialTheme.shapes.small),
+        contentScale = ContentScale.Crop
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventoItem(evento: Evento, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Card (modifier = modifier, onClick = onClick) {
+fun InvitadoItem(invitado: Invitado, onClick: (Int) -> Unit, modifier: Modifier = Modifier) {
+    Card (modifier = modifier, onClick = { onClick(invitado.eventoId) }) {
         Column (
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(dimensionResource(R.dimen.padding_small))
         ) {
             Row {
-                EventoIcon()
-                EventoInfo(titulo = evento.titulo, ubicacion = evento.ubicacion)
+                InvitadoIcon(genero = invitado.genero)
+                InvitadoInfo(nombre = invitado.nombre, email = invitado.email)
                 Spacer(modifier = Modifier.weight(1f))
-                EventoFecha(fecha = evento.fecha, modifier)
+                InvitadoNotificadoIcon(invitado.notificado)
             }
         }
     }
 }
 
 @Composable
-fun NuevoEventoButton(onClick: () -> Unit) {
+fun NuevoInvitadoButton(
+    onClick: (Int) -> Unit,
+    eventoId: Int
+) {
     FloatingActionButton(
-        onClick = onClick,
+        onClick = { onClick(eventoId) },
         containerColor = MaterialTheme.colorScheme.primary
     ) {
         Icon(
             imageVector = Icons.Default.Add,
-            contentDescription = stringResource(R.string.nuevo_evento)
+            contentDescription = stringResource(R.string.nuevo_invitado)
         )
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Preview
 @Composable
-fun EventosScreenPreview() {
+fun InvitadosScreenPreview() {
     AppTheme {
-        EventosScreen()
+        //InvitadosScreen()
     }
 }

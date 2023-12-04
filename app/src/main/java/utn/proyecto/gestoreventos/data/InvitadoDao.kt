@@ -22,6 +22,6 @@ interface InvitadoDao {
     @Query("SELECT * from invitados WHERE id = :id")
     fun getItem(id: Int): Flow<Invitado>
 
-    @Query("SELECT * from invitados ORDER BY nombre ASC")
-    fun getAllItems(): Flow<List<Invitado>>
+    @Query("SELECT * from invitados WHERE eventoId = :eventoId")
+    fun getAllInvidatosByEvento(eventoId: Int): Flow<List<Invitado>>
 }

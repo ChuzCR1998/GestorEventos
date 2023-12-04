@@ -17,13 +17,14 @@
 package utn.proyecto.gestoreventos.ui
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import utn.proyecto.gestoreventos.ui.viewmodel.EventosViewModel
+import utn.proyecto.gestoreventos.EventosApplication
+import utn.proyecto.gestoreventos.ui.eventos.EventosViewModel
+import utn.proyecto.gestoreventos.ui.invitados.InvitadosViewModel
 
 /**
  * Provides Factory to create instance of ViewModel for the entire Inventory app
@@ -31,9 +32,15 @@ import utn.proyecto.gestoreventos.ui.viewmodel.EventosViewModel
 object AppViewModelProvider {
     val Factory = viewModelFactory {
 
-        // Initializer for HomeViewModel
         initializer {
             EventosViewModel(eventosApplication().container.eventosRepository)
+        }
+
+        initializer {
+            InvitadosViewModel(
+                this.createSavedStateHandle(),
+                eventosApplication().container.invitadosRepository
+            )
         }
     }
 }

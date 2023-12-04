@@ -1,4 +1,4 @@
-package utn.proyecto.gestoreventos.ui
+package utn.proyecto.gestoreventos
 
 import android.app.Application
 import utn.proyecto.gestoreventos.data.AppContainer
