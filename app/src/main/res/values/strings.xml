@@ -10,6 +10,7 @@
     <string name="firstName">Nombre</string>
     <string name="lastName">Apellido</string>
     <string name="login">Iniciar sesión</string>
+    <string name="Logout">Cerrar sesión</string>
     <string name="createAct">Crear cuenta</string>
 
 

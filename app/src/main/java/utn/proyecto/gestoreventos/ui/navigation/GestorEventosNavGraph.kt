@@ -42,16 +42,21 @@ fun GestorEventosNavHost(
         modifier = modifier
     ) {
         composable(route = GestorEventosScreen.Login.name) {
+            val context = LocalContext.current
             InicioSecion(
                 navigateToHome = {
                     navController.navigate(GestorEventosScreen.Start.name)
-                }
+                },
+                context
             )
         }
-        composable(route = GestorScreen.Start.name) {
+        composable(route = GestorEventosScreen.Start.name) {
             PrincipalScreen(
                 onNextButtonClicked = {
                     navController.navigate(GestorEventosScreen.Eventos.name)
+                },
+                cerrarSesionClicked = {
+                    navController.navigate(GestorEventosScreen.Login.name)
                 }
             )
         }
