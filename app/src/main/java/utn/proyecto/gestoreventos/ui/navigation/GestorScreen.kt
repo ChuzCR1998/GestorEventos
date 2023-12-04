@@ -1,9 +1,8 @@
-package utn.proyecto.gestoreventos
+package utn.proyecto.gestoreventos.ui.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -22,15 +21,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import utn.proyecto.gestoreventos.ui.EventosScreen
-import utn.proyecto.gestoreventos.ui.InicioSecion
-import utn.proyecto.gestoreventos.ui.InvitadosScreen
-import utn.proyecto.gestoreventos.ui.NuevoInvitadoScreen
-import utn.proyecto.gestoreventos.ui.PrincipalScreen
+import androidx.navigation.navArgument
+import utn.proyecto.gestoreventos.R
+import utn.proyecto.gestoreventos.ui.eventos.EventosScreen
+import utn.proyecto.gestoreventos.ui.login.InicioSecion
+import utn.proyecto.gestoreventos.ui.invitados.InvitadosDestination
+import utn.proyecto.gestoreventos.ui.invitados.InvitadosScreen
+import utn.proyecto.gestoreventos.ui.invitados.NuevoInvitadoDestination
+import utn.proyecto.gestoreventos.ui.invitados.NuevoInvitadoScreen
+import utn.proyecto.gestoreventos.ui.home.PrincipalScreen
 
 enum class GestorScreen(@StringRes val title: Int) {
     Login(title = R.string.Login),
@@ -43,13 +47,12 @@ enum class GestorScreen(@StringRes val title: Int) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GestorAppBar(
-    currentScreen: GestorScreen,
     canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
+    navigateUp: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
-        title = { Text(stringResource(currentScreen.title)) },
+        title = { Text("") },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
@@ -78,14 +81,11 @@ fun GestorApp(
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
     // Get the name of the current screen
-    val currentScreen = GestorScreen.valueOf(
-        backStackEntry?.destination?.route ?: GestorScreen.Start.name
-    )
+
 
     Scaffold(
         topBar = {
             GestorAppBar(
-                currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() }
             )
@@ -116,33 +116,35 @@ fun GestorApp(
             composable(route = GestorScreen.Eventos.name) {
                 val context = LocalContext.current
                 EventosScreen(
-                    onNextButtonClicked = { navController.navigate(GestorScreen.Invitados.name) },
-                    onCancelButtonClicked = {
-                        //cancelOrderAndNavigateToStart(viewModel, navController)
-                    },
-                    onSelectionChanged = { },
+                    onNextButtonClicked = { navController.navigate("${InvitadosDestination.route}/$it") },
+                    navigateBack = { navController.popBackStack() },
                     modifier = Modifier.fillMaxHeight()
                 )
             }
 
-            composable(route = GestorScreen.Invitados.name) {
+            composable(
+                route = InvitadosDestination.routeWithArgs,
+                arguments = listOf(navArgument(InvitadosDestination.eventoIdArg) {
+                    type = NavType.IntType
+                })
+                ) {
                 val context = LocalContext.current
                 InvitadosScreen(
-                    onNextButtonClicked = { navController.navigate(GestorScreen.NuevoInvitado.name) },
-                    onCancelButtonClicked = {
-                        //cancelOrderAndNavigateToStart(viewModel, navController)
-                    },
-                    onSelectionChanged = { },
+                    onNextButtonClicked = { navController.navigate("${NuevoInvitadoDestination.route}/$it") },
+                    navigateBack = { navController.popBackStack() },
                     modifier = Modifier.fillMaxHeight()
                 )
             }
 
-            composable(route = GestorScreen.NuevoInvitado.name) {
+            composable(
+                route = NuevoInvitadoDestination.routeWithArgs,
+                arguments = listOf(navArgument(NuevoInvitadoDestination.eventoIdArg) {
+                    type = NavType.IntType
+                })
+            ) {
                 val context = LocalContext.current
                 NuevoInvitadoScreen(
-                    onCancelButtonClicked = {
-                        //cancelOrderAndNavigateToStart(viewModel, navController)
-                    },
+                    navigateBack = { navController.popBackStack() },
                     modifier = Modifier.fillMaxHeight()
                 )
             }

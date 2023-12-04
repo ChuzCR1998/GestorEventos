@@ -1,6 +1,5 @@
-package utn.proyecto.gestoreventos.ui.viewmodel
+package utn.proyecto.gestoreventos.ui.eventos
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,7 +11,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import utn.proyecto.gestoreventos.data.Evento
 import utn.proyecto.gestoreventos.data.EventosRepository
-import utn.proyecto.gestoreventos.data.OfflineEventosRepository
 
 class EventosViewModel(private val eventosRepository: EventosRepository) : ViewModel() {
 
@@ -46,14 +44,25 @@ class EventosViewModel(private val eventosRepository: EventosRepository) : ViewM
         showDialog = true
     }
 
-    suspend fun saveEvento() {
-        eventosRepository.insertItem(eventoUiState.evento)
-        showDialog = false
+    suspend fun saveEvento() : Boolean {
+        if (validateInput()) {
+            eventosRepository.insertItem(eventoUiState.evento)
+            showDialog = false
+            updateEventoUiState(eventoUiState.evento.copy(id = 0, titulo = "", ubicacion = "", fecha = "", hora = ""))
+            return true;
+        }
+        return false;
     }
 
     fun updateEventoUiState(evento: Evento) {
         eventoUiState =
             EventoUiState(evento = evento)
+    }
+
+    private fun validateInput(uiState: Evento = eventoUiState.evento): Boolean {
+        return with(uiState) {
+            titulo.isNotBlank() && ubicacion.isNotBlank() && fecha.isNotBlank() && hora.isNotBlank()
+        }
     }
 }
 

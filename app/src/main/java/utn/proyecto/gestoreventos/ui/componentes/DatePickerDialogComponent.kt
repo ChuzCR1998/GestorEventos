@@ -84,8 +84,3 @@ fun DatePickerDialogComponent(
     }
     return pickedDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
 }
-
-@Composable
-fun getStringResource(@StringRes resId: Int): String {
-    return stringResource(resId)
-}

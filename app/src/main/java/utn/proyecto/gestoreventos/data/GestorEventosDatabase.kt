@@ -5,9 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Evento::class], version = 2, exportSchema = false)
+@Database(entities = [Evento::class, Invitado::class], version = 5, exportSchema = false)
 abstract class GestorEventosDatabase : RoomDatabase() {
     abstract fun eventoDao(): EventoDao
+    abstract fun invitadoDao(): InvitadoDao
 
     companion object {
         @Volatile
