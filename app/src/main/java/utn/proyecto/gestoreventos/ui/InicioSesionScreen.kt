@@ -1,5 +1,6 @@
 package utn.proyecto.gestoreventos.ui
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -189,7 +190,7 @@ fun InputFiel(valueState: MutableState<String>,
 
 @Composable
 fun InicioSecion(
-    navigateToHome: () -> Unit ,
+    navigateToHome: () -> Unit ,context: Context,
     viewModel: LoginScreenViewModel = viewModel()):Unit
 {
     val mostraLogin = rememberSaveable {
@@ -208,7 +209,7 @@ fun InicioSecion(
 
                         correo, contrasenna ->
                     Log.d("GestorEventos","Logueado con exito $correo")
-                    viewModel.signInWithEmailAndPassword(correo,contrasenna,navigateToHome)
+                    viewModel.signInWithEmailAndPassword(correo,contrasenna,context,navigateToHome)
 
                 }
 

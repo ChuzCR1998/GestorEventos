@@ -3,8 +3,11 @@ package utn.proyecto.gestoreventos
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -18,14 +21,18 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import utn.proyecto.gestoreventos.ui.CerrarSesionButton
 import utn.proyecto.gestoreventos.ui.EventosScreen
 import utn.proyecto.gestoreventos.ui.InicioSecion
 import utn.proyecto.gestoreventos.ui.InvitadosScreen
@@ -99,18 +106,29 @@ fun GestorApp(
         ) {
 
             composable(route = GestorScreen.Login.name) {
+                val context = LocalContext.current
                 InicioSecion(
                     navigateToHome = {
                         navController.navigate(GestorScreen.Start.name)
-                    }
+                    },
+                    context
                 )
             }
             composable(route = GestorScreen.Start.name) {
-                PrincipalScreen(
-                    onNextButtonClicked = {
-                        navController.navigate(GestorScreen.Eventos.name)
-                    }
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    PrincipalScreen(
+                        onNextButtonClicked = {
+                            navController.navigate(GestorScreen.Eventos.name)
+                        }
+                    )
+
+                    CerrarSesionButton(navController)
+                }
             }
 
             composable(route = GestorScreen.Eventos.name) {
@@ -146,6 +164,8 @@ fun GestorApp(
                     modifier = Modifier.fillMaxHeight()
                 )
             }
+
+
 
         }
     }
